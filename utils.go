@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -31,4 +33,24 @@ func StringToInt(str string, defaultValue int) int {
 	}
 
 	return result
+}
+
+// ParseConfig reads a `config.json` file on the same directory as the executable and parses its JSON to the given model.
+func ParseConfig(model *interface{}) error {
+	executablePath, err := GetExecutablePath()
+
+	if err != nil {
+		return err
+	}
+
+	path := SafeJoinPaths(executablePath, "config.json")
+	content, err := ioutil.ReadFile(path)
+
+	err = json.Unmarshal(content, &model)
+
+	if err != nil {
+		return nil
+	}
+
+	return nil
 }
