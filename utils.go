@@ -36,7 +36,7 @@ func StringToInt(str string, defaultValue int) int {
 }
 
 // ParseConfig reads a `config.json` file on the same directory as the executable and parses its JSON to the given model.
-func ParseConfig(model *interface{}) error {
+func ParseConfig(model interface{}) error {
 	executablePath, err := GetExecutablePath()
 
 	if err != nil {
