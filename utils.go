@@ -35,6 +35,23 @@ func StringToInt(str string, defaultValue int) int {
 	return result
 }
 
+// LoadJSONFromFile loads a JSON file from `path` and populated the given `model`.
+func LoadJSONFromFile(path string, model interface{}) error {
+	content, err := ioutil.ReadFile(path)
+
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(content, &model)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // ParseConfig reads a `config.json` file on the same directory as the executable and parses its JSON to the given model.
 func ParseConfig(model interface{}) error {
 	executablePath, err := GetExecutablePath()
@@ -44,13 +61,6 @@ func ParseConfig(model interface{}) error {
 	}
 
 	path := SafeJoinPaths(executablePath, "config.json")
-	content, err := ioutil.ReadFile(path)
 
-	err = json.Unmarshal(content, &model)
-
-	if err != nil {
-		return nil
-	}
-
-	return nil
+	return LoadJSONFromFile(path, model)
 }
