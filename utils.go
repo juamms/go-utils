@@ -52,6 +52,26 @@ func LoadJSONFromFile(path string, model interface{}) error {
 	return nil
 }
 
+// WriteJSONToFile writes the given `model` struct as JSON to the file at `path`
+func WriteJSONToFile(path string, model interface{}) error {
+	file, err := os.Open(path)
+
+	if err != nil {
+		return err
+	}
+
+	defer file.Close()
+
+	encoder := json.NewEncoder(file)
+	err = encoder.Encode(model)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // ParseConfig reads a `config.json` file on the same directory as the executable and parses its JSON to the given model.
 func ParseConfig(model interface{}) error {
 	executablePath, err := GetExecutablePath()
