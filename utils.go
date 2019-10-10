@@ -54,7 +54,7 @@ func LoadJSONFromFile(path string, model interface{}) error {
 
 // WriteJSONToFile writes the given `model` struct as JSON to the file at `path`
 func WriteJSONToFile(path string, model interface{}) error {
-	file, err := os.OpenFile(path, os.O_CREATE, os.ModePerm)
+	file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY, os.ModePerm)
 
 	if err != nil {
 		return err
